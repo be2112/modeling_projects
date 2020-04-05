@@ -1,0 +1,6 @@
+# Don't track PyCharm project files
+.idea
+
+# General
+.DS_Store
+.ipynb_checkpoints

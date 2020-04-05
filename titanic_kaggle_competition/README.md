@@ -20,7 +20,19 @@ https://journals.plos.org/ploscompbiol/article/file?id=10.1371/journal.pcbi.1000
 
 Navigate the the root of the project folder.
 
-Execute the ```setup_environment.sh``` script.
+Create a conda environment using the requirements in the environment file:
+
+```bash
+conda env create -f requirements.yml
+```
+
+Activate the conda environment:
+
+```bash
+source activate titanic_kaggle_competition
+```
+
+
 
 
 
@@ -28,7 +40,11 @@ Execute the ```setup_environment.sh``` script.
 
 Navigate to the root of the project folder.
 
-Execute the ```teardown_environment.sh``` script.
+Remove the conda environment:
+
+```bash
+conda remove --name titanic_kaggle_competition --all
+```
 
 To verify that the environment was removed, in your terminal window or an Anaconda Prompt, run:
 
@@ -36,5 +52,5 @@ To verify that the environment was removed, in your terminal window or an Anacon
 conda info --envs
 ```
 
-
+You are now free to delete the ```titanic_kaggle_competition``` folder.
 
