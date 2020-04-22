@@ -42,7 +42,7 @@ I plan to build a preprocessing pipeline using Scikit-Learn pipeline objects.  T
 | Mean               | $32,274.13                                                   |
 | Standard Deviation | $12,292.94                                                   |
 
-![saleshist](/Users/brianelinsky/Dropbox/ActiveProjects/modeling_projects/housing_prices_kaggle/results/2020-04-15/saleshist.png)
+![saleshist](https://raw.githubusercontent.com/be2112/modeling_projects/master/housing_prices_kaggle/results/2020-04-15/saleshist.png)
 
 The average root mean square error of this basic linear model is $32,274.13.  Generally a lower RMSE is better than a higher RMSE.  This is an OK model, but definitely not great.  This is definitely a good baseline to compare future models to.  In practice, I do not think you would want to deploy a model with this poor of a fit.
 
