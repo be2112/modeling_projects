@@ -1,15 +1,17 @@
-from bin.library import *
+from library.library import *
 from sklearn.preprocessing import OneHotEncoder, RobustScaler
 from sklearn.pipeline import make_pipeline, FeatureUnion
 from sklearn.linear_model import LinearRegression
 from sklearn.impute import SimpleImputer
 from sklearn.model_selection import cross_val_score
+from library.transformers import ColumnSelector, TypeSelector, CategoricalEncoder
 
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
 
 # Load training data
+
 data_file = get_dataset_file_path('2020-04-13', 'train.csv')
 train = pd.read_csv(data_file)
 

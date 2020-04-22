@@ -6,9 +6,14 @@
 
 
 
-## Folder Structure
+## Organization
 
 The folder structure follows the suggestions made by William Stafford Noble in *A Quick Guide to Organizing Computational Biology Projects*.
+
+* ```/bin``` holds functions and classes that can be reused across analyses.
+* ```/doc``` holds manuscripts.
+* ```/data``` stores fixed data sets.  Within the data directory, data sets are organized chronologically.
+* ```/results``` tracks computational experiments performed on the data.  Within the results directory, experiments are organized chronologically.  The ```runall.py``` script reproduces an experiment.
 
 Noble, William Stafford. “A Quick Guide to Organizing Computational Biology Projects.” *PLoS Computational Biology*, vol. 5, no. 7, 2009, doi:10.1371/journal.pcbi.1000424.
 
