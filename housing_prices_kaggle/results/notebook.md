@@ -1,4 +1,4 @@
-# Housing Prices Kaggle Competition Notebook
+# Housing Prices Kaggle Competition Lab Notebook
 
 ## 2020-04-13
 
@@ -116,3 +116,177 @@ And the following results on the Kaggle test set:
 ### Future Work
 
 Additional work could include building an ensemble model, or attempting to model this dataset with a K-nearest neighbors model.  Additionally, it may be valuable to treat some of the pre-processing steps as hyperparemeters.
+
+## 2020-04-27
+
+### Experiment Plan
+
+I plan on building Random Forest Regressors with varying depths, and comparing their test errors as the number of trees in the forest increases.  This will allow me to determine the optimal depth and optimal number of trees in my Random Forest Regressor.
+
+### Preprocessing and Model Decisions
+
+* I dropped categorical variables that were missing over 10% of the data.  This included: 'Alley', 'FireplaceQu', 'PoolQC', 'Fence', 'MiscFeature'.
+* For numeric features, I imputed missing values with medians.
+* For categorical features, I imputed missing values with the most frequent value.
+* I encoded categorical features to dummy arrays.
+* I created RandomForestRegressors with depths of 1, 5, 10, 20, 40, and 80.
+* I calculated test error using the out of bag error.
+* I calculated the test error for all models for 20 to 200 trees.
+
+### Results and Interpretation
+
+![test_errors](/Users/brianelinsky/Dropbox/ActiveProjects/modeling_projects/housing_prices_kaggle/results/2020-04-27/test_errors.png)
+
+* A random forest of stumps doesn't appear to be very effective with this dataset.
+* Once you get to a max depth of 10, there isn't much additional benefit to adding more depth.
+* Most of the benefit comes from 100 trees.  But the test error does appear to continue to decrease after that, albeit very slowly.
+
+### Future Work
+
+* Complete the same experiment, but instead of varying depth, vary the number of features.
+* Do the same experiment comparing a random forest to Adaboost, and Gradient Boosting.
+* Consider adding second degree polynomial features.
+* Consider building an ensemble model.
+* Build a feature importance graph.
+
+
+
+## 2020-04-29
+
+### Experiment Plan
+
+I plan on comparing the test error of the following models:
+
+* Random Forest Regressor, max_depth=20, max_features=log2
+* Random Forest Regressor, max_depth=20, max_features=sqrt
+* Random Forest Regressor, max_depth=20, max_features=auto
+
+### Results and Interpretation
+
+![test_errors](/Users/brianelinsky/Dropbox/ActiveProjects/modeling_projects/housing_prices_kaggle/results/2020-04-29/test_errors.png)
+
+![learning_curve](/Users/brianelinsky/Dropbox/ActiveProjects/modeling_projects/housing_prices_kaggle/results/2020-04-29/learning_curve.svg)
+
+Max_features=auto performed the best.  I expected log2 to perform better.
+
+Because there is a gap between the training score and the cross validation score, I think this model is likely overfitting the data.  However, the cross validation score does continue to slowly increase.  So adding more data will likely provide additional benefit.  Given the results of the experiment yesterday, I don't think simplifying the model by reducing max_depth would help.
+
+### Next Steps
+
+I'd like to evaluate gradient boosting regressors on this dataset.
+
+
+
+## 2020-04-30
+
+### Experiment Plan
+
+I plan on building a gradient boosting regressor.  I will use the same preprocessing pipeline as on previous experiments.  I'll try out 12 different models, varying max_depth, learning_rate, and max_features.  I'll plot the test error vs the number of trees.
+
+### Results and Interpretation
+
+![GB, max_features=auto, max_depth=1, learning_rate=0.1test_errors](/Users/brianelinsky/Dropbox/ActiveProjects/modeling_projects/housing_prices_kaggle/results/2020-04-30/GB, max_features=auto, max_depth=1, learning_rate=0.1test_errors.png)
+
+![GB, max_features=auto, max_depth=1, learning_rate=0.01test_errors](/Users/brianelinsky/Dropbox/ActiveProjects/modeling_projects/housing_prices_kaggle/results/2020-04-30/GB, max_features=auto, max_depth=1, learning_rate=0.01test_errors.png)
+
+![GB, max_features=auto, max_depth=3, learning_rate=0.1test_errors](/Users/brianelinsky/Dropbox/ActiveProjects/modeling_projects/housing_prices_kaggle/results/2020-04-30/GB, max_features=auto, max_depth=3, learning_rate=0.1test_errors.png)
+
+![GB, max_features=auto, max_depth=3, learning_rate=0.01test_errors](/Users/brianelinsky/Dropbox/ActiveProjects/modeling_projects/housing_prices_kaggle/results/2020-04-30/GB, max_features=auto, max_depth=3, learning_rate=0.01test_errors.png)
+
+![GB, max_features=auto, max_depth=10, learning_rate=0.1test_errors](/Users/brianelinsky/Dropbox/ActiveProjects/modeling_projects/housing_prices_kaggle/results/2020-04-30/GB, max_features=auto, max_depth=10, learning_rate=0.1test_errors.png)
+
+![GB, max_features=auto, max_depth=10, learning_rate=0.01test_errors](/Users/brianelinsky/Dropbox/ActiveProjects/modeling_projects/housing_prices_kaggle/results/2020-04-30/GB, max_features=auto, max_depth=10, learning_rate=0.01test_errors.png)
+
+![GB, max_features=log2, max_depth=1, learning_rate=0.1test_errors](/Users/brianelinsky/Dropbox/ActiveProjects/modeling_projects/housing_prices_kaggle/results/2020-04-30/GB, max_features=log2, max_depth=1, learning_rate=0.1test_errors.png)
+
+![GB, max_features=log2, max_depth=1, learning_rate=0.01test_errors](/Users/brianelinsky/Dropbox/ActiveProjects/modeling_projects/housing_prices_kaggle/results/2020-04-30/GB, max_features=log2, max_depth=1, learning_rate=0.01test_errors.png)
+
+![GB, max_features=log2, max_depth=3, learning_rate=0.1test_errors](/Users/brianelinsky/Dropbox/ActiveProjects/modeling_projects/housing_prices_kaggle/results/2020-04-30/GB, max_features=log2, max_depth=3, learning_rate=0.1test_errors.png)
+
+![GB, max_features=log2, max_depth=3, learning_rate=0.01test_errors](/Users/brianelinsky/Dropbox/ActiveProjects/modeling_projects/housing_prices_kaggle/results/2020-04-30/GB, max_features=log2, max_depth=3, learning_rate=0.01test_errors.png)
+
+![GB, max_features=log2, max_depth=10, learning_rate=0.1test_errors](/Users/brianelinsky/Dropbox/ActiveProjects/modeling_projects/housing_prices_kaggle/results/2020-04-30/GB, max_features=log2, max_depth=10, learning_rate=0.1test_errors.png)
+
+![GB, max_features=log2, max_depth=10, learning_rate=0.01test_errors](/Users/brianelinsky/Dropbox/ActiveProjects/modeling_projects/housing_prices_kaggle/results/2020-04-30/GB, max_features=log2, max_depth=10, learning_rate=0.01test_errors.png)
+
+The best model ended up being the last one I tested.
+
+```python
+GradientBoostingRegressor(alpha=0.9, ccp_alpha=0.0, criterion='friedman_mse',
+                          init=None, learning_rate=0.01, loss='ls',
+                          max_depth=10, max_features='log2',
+                          max_leaf_nodes=None, min_impurity_decrease=0.0,
+                          min_impurity_split=None, min_samples_leaf=1,
+                          min_samples_split=2, min_weight_fraction_leaf=0.0,
+                          n_estimators=1000, n_iter_no_change=None,
+                          presort='deprecated', random_state=79, subsample=1.0,
+                          tol=0.0001, validation_fraction=0.1, verbose=0,
+                          warm_start=True)
+```
+
+The max_depth and learning_rate parameters were on the edge of the ranges that I choose.  So I'm not confident that this is the best model that I can build.
+
+### Next Steps
+
+I'd like to do a grid search over a larger space.
+
+## 2020-05-01
+
+### Experiment Plan
+
+I plan on doing a fairly large grid search for both a random forest regressor and a gradient boosting regressor.  I'll take the best models from each grid search and submit the predictions to Kaggle.
+
+### Results and Interpretation
+
+The following are the best models
+
+
+#### Gradient Boosting Model and Scores
+
+```python
+GradientBoostingRegressor(alpha=0.9, ccp_alpha=0.0, criterion='friedman_mse',
+                          init=None, learning_rate=0.01, loss='ls', max_depth=3,
+                          max_features='sqrt', max_leaf_nodes=None,
+                          min_impurity_decrease=0.0, min_impurity_split=None,
+                          min_samples_leaf=1, min_samples_split=2,
+                          min_weight_fraction_leaf=0.0, n_estimators=6400,
+                          n_iter_no_change=None, presort='deprecated',
+                          random_state=79, subsample=1.0, tol=0.0001,
+                          validation_fraction=0.1, verbose=0, warm_start=False)
+```
+
+
+
+| Metric             | Value                                                        |
+| ------------------ | ------------------------------------------------------------ |
+| RMSE Scores        | 19487.55, 21543.60, 19490.61, 39987.68, 27558.00, 21616.68, 21173.44, 18978.27, 30454.24, 21783.84 |
+| Mean               | 24207.39                                                     |
+| Standard Deviation | 6324.72                                                      |
+
+And the following results on the Kaggle test set:
+
+**Log RMSE**: 0.12768
+
+#### Random Forest Model and Scores
+
+```python
+RandomForestRegressor(bootstrap=True, ccp_alpha=0.0, criterion='mse',
+                      max_depth=10, max_features='auto', max_leaf_nodes=None,
+                      max_samples=None, min_impurity_decrease=0.0,
+                      min_impurity_split=None, min_samples_leaf=1,
+                      min_samples_split=2, min_weight_fraction_leaf=0.0,
+                      n_estimators=200, n_jobs=None, oob_score=False,
+                      random_state=79, verbose=0, warm_start=False)
+```
+
+| Metric             | Value                                                        |
+| ------------------ | ------------------------------------------------------------ |
+| RMSE Scores        | 24902.07, 26523.00, 21978.73, 38355.29,<br> 32829.27, 25498.82,  24202.52, 24174.37,<br> 39793.86, 28119.71 |
+| Mean               | 28637.77                                                     |
+| Standard Deviation | 5907.13                                                      |
+
+And the following results on the Kaggle test set:
+
+**Log RMSE**: 0.14935
+
+The random forest performs marginally better than my linear regression models.  However, the gradient boosting model performs substantially better.

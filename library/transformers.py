@@ -46,6 +46,7 @@ class CategoricalEncoder(BaseEstimator, TransformerMixin):
     def transform(self, X):
         assert isinstance(X, pd.DataFrame)
 
+        pd.set_option('mode.chained_assignment', None) # Turn off warnings
         object_columns = X.select_dtypes(include='object').columns.tolist()
         for obj_col in object_columns:
             X[obj_col] = X[obj_col].astype('category')
