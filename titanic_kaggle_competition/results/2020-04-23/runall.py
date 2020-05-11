@@ -6,10 +6,10 @@ from sklearn.model_selection import cross_val_predict, GridSearchCV, ShuffleSpli
 from sklearn.pipeline import make_pipeline, FeatureUnion
 from sklearn.preprocessing import OneHotEncoder, RobustScaler
 
-from library.library import *
+from lib_bre import *
 
 # Load training data
-from library.transformers import ColumnSelector, TypeSelector, CategoricalEncoder
+from lib_bre import ColumnSelector, TypeSelector, CategoricalEncoder
 
 train_data_filepath = get_dataset_file_path('2020-04-04', 'train.csv')
 train_df = pd.read_csv(train_data_filepath)

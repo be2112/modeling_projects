@@ -1,5 +1,4 @@
 # runall.py
-import numpy as np
 from sklearn.impute import SimpleImputer
 from sklearn.linear_model import LogisticRegression
 from sklearn.metrics import precision_score, recall_score, precision_recall_curve, roc_curve, auc
@@ -7,8 +6,8 @@ from sklearn.model_selection import cross_val_predict
 from sklearn.pipeline import make_pipeline, FeatureUnion
 from sklearn.preprocessing import OneHotEncoder
 
-from library.library import *
-from library.transformers import ColumnSelector, TypeSelector, CategoricalEncoder
+from lib_bre import *
+from lib_bre import ColumnSelector, TypeSelector, CategoricalEncoder
 
 # Load training data
 

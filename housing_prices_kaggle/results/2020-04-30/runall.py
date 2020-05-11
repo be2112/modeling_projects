@@ -7,8 +7,8 @@ from sklearn.model_selection import train_test_split
 from sklearn.pipeline import make_pipeline, FeatureUnion
 from sklearn.preprocessing import OneHotEncoder
 
-from library.library import *
-from library.transformers import ColumnSelector, TypeSelector, CategoricalEncoder
+from lib_bre import *
+from lib_bre import ColumnSelector, TypeSelector, CategoricalEncoder
 
 # Load training data
 data_file = get_dataset_file_path('2020-04-13', 'train.csv')

@@ -1,4 +1,4 @@
-from library.library import *
+from lib_bre import *
 
 import pandas as pd
 import matplotlib.pyplot as plt

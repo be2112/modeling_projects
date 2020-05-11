@@ -1,6 +1,6 @@
 # runall.py
-from library.library import *
-from library.transformers import ColumnSelector, TypeSelector, CategoricalEncoder
+from lib_bre import *
+from lib_bre import ColumnSelector, TypeSelector, CategoricalEncoder
 from sklearn.preprocessing import OneHotEncoder, RobustScaler
 from sklearn.pipeline import make_pipeline, FeatureUnion
 from sklearn.linear_model import Ridge, Lasso, ElasticNet

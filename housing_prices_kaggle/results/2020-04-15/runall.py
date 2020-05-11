@@ -1,10 +1,10 @@
-from library.library import *
+from lib_bre import *
 from sklearn.preprocessing import OneHotEncoder, RobustScaler
 from sklearn.pipeline import make_pipeline, FeatureUnion
 from sklearn.linear_model import LinearRegression
 from sklearn.impute import SimpleImputer
 from sklearn.model_selection import cross_val_score
-from library.transformers import ColumnSelector, TypeSelector, CategoricalEncoder
+from lib_bre import ColumnSelector, TypeSelector, CategoricalEncoder
 
 import pandas as pd
 import numpy as np

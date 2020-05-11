@@ -26,3 +26,88 @@
   * The data is labeled correctly.
   * The numbers are relatively centered.
 * Verify assumptions if possible.
+
+
+
+### Experiment Plan
+
+This week I've been given explicit directions to do the following:
+
+*Begin by fitting a random forest classifier using the full set of 784 explanatory variables and the model training set (train.csv). Record the time it takes to fit the model and then evaluate the model on the test.csv data by submitting to Kaggle.com. Provide your Kaggle.com score and user ID.*
+
+### Experiment Results
+
+RandomForestClassifier parameters:
+
+```python
+{'bootstrap': True, 'ccp_alpha': 0.0, 'class_weight': None, 'criterion': 'gini', 'max_depth': None, 'max_features': 'auto', 'max_leaf_nodes': None, 'max_samples': None, 'min_impurity_decrease': 0.0, 'min_impurity_split': None, 'min_samples_leaf': 1, 'min_samples_split': 2, 'min_weight_fraction_leaf': 0.0, 'n_estimators': 100, 'n_jobs': None, 'oob_score': True, 'random_state': 98, 'verbose': 0, 'warm_start': False}
+```
+
+**OOB Score**: 0.9609761904761904
+
+**Kaggle Score**: 0.96342 (Account User ID 4810027)(https://www.kaggle.com/brianelinsky/)
+
+**Time**: 32.018 seconds (without parallelization)
+
+## 2020-05-05
+
+### Experiment Plan
+
+My instructions are as follows:
+
+*Execute principal components analysis (PCA) on the combined training and test set data together, generating principal components that represent 95 percent of the variability in the explanatory variables. The number of principal components in the solution should be substantially fewer than the 784 explanatory variables. Record the time it takes to identify the principal components.*
+
+*Using the identified principal components, use the train.csv to build another random forest classifier. Record the time it takes to fit the model and to evaluate the model on the test.csv data by submitting to Kaggle.com. **Provide your Kaggle.com score and user ID.***
+
+### Experiment Results
+
+The PCA reduced the number of features to 332.
+
+
+
+RandomForestClassifier parameters:
+
+```python
+{'bootstrap': True, 'ccp_alpha': 0.0, 'class_weight': None, 'criterion': 'gini', 'max_depth': None, 'max_features': 'auto', 'max_leaf_nodes': None, 'max_samples': None, 'min_impurity_decrease': 0.0, 'min_impurity_split': None, 'min_samples_leaf': 1, 'min_samples_split': 2, 'min_weight_fraction_leaf': 0.0, 'n_estimators': 100, 'n_jobs': None, 'oob_score': True, 'random_state': 12, 'verbose': 0, 'warm_start': False}
+0.9225238095238095
+```
+
+**OOB Score:**  0.9225238095238095
+
+**Kaggle Score:** 0.93357 (Account User ID 4810027)(https://www.kaggle.com/brianelinsky/)
+
+**Time:** 
+
+* 11.166 seconds to train the PCA
+* 73.140 seconds (without parallelization) to train the Random Forest Classifier
+
+The issue with this experiment is the information leakage in the PCA.  The PCA was fit with both training data and test data.  Hence, the final model included some information from the test data.  This experiment should be replicated by fitting the PCA model with only training data, and using that model to transform the test data.  There was also information leakage in the scaler.
+
+I was surprised that the OOB score and the Kaggle score were so close.  I expected the Kaggle score to be lower due to the information leakage.
+
+## 2020-05-06
+
+### Experiment Plan
+
+Repeat the same experiment but without the information leakage.
+
+*The experiment we have proposed has a MAJOR design flaw. Identify the flaw. Fix it. Rerun the experiment in a way that is consistent with a training-and-test regimen, and submit this to Kaggle.com. Provide your Kaggle.com score and user ID*
+
+### Experiment Results
+
+The PCA reduced the number of features to 320.
+
+RandomForestClassifier parameters:
+
+```python
+{'bootstrap': True, 'ccp_alpha': 0.0, 'class_weight': None, 'criterion': 'gini', 'max_depth': None, 'max_features': 'auto', 'max_leaf_nodes': None, 'max_samples': None, 'min_impurity_decrease': 0.0, 'min_impurity_split': None, 'min_samples_leaf': 1, 'min_samples_split': 2, 'min_weight_fraction_leaf': 0.0, 'n_estimators': 100, 'n_jobs': None, 'oob_score': True, 'random_state': 12, 'verbose': 0, 'warm_start': False}
+```
+
+**OOB Score:**  0.9203809523809524
+
+**Kaggle Score:** 0.93114 (Account User ID 4810027)(https://www.kaggle.com/brianelinsky/)
+
+**Time:** 
+
+* 8.834 seconds to train the PCA
+* 66.2 seconds (without parallelization) to train the Random Forest Classifier

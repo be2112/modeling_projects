@@ -6,8 +6,8 @@ from sklearn.pipeline import Pipeline
 from sklearn.pipeline import make_pipeline, FeatureUnion
 from sklearn.preprocessing import OneHotEncoder
 from sklearn.ensemble import RandomForestRegressor
-from library.library import *
-from library.transformers import ColumnSelector, TypeSelector, CategoricalEncoder
+from lib_bre import *
+from lib_bre import ColumnSelector, TypeSelector, CategoricalEncoder
 import matplotlib.pyplot as plt
 
 # Load training data

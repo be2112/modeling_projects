@@ -1,7 +1,6 @@
 # runall.py
 from collections import OrderedDict
 
-import matplotlib.pyplot as plt
 from sklearn.ensemble import RandomForestRegressor
 from sklearn.impute import SimpleImputer
 from sklearn.model_selection import ShuffleSplit
@@ -9,8 +8,8 @@ from sklearn.pipeline import Pipeline
 from sklearn.pipeline import make_pipeline, FeatureUnion
 from sklearn.preprocessing import OneHotEncoder
 
-from library.library import *
-from library.transformers import ColumnSelector, TypeSelector, CategoricalEncoder
+from lib_bre import *
+from lib_bre import ColumnSelector, TypeSelector, CategoricalEncoder
 
 # Load training data
 
