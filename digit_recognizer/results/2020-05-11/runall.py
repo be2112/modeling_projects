@@ -1,9 +1,6 @@
 from lib_bre import *
-import tensorflow as tf
-from tensorflow import keras
 from sklearn.preprocessing import MinMaxScaler
-import pandas as pd
-import matplotlib.pyplot as plt
+from tensorflow import keras
 
 # Load train data
 train_data_file = get_dataset_file_path('2020-05-04', 'train.csv')
@@ -26,86 +23,44 @@ X_test = pd.read_csv(test_data_file)
 X_test_scaled = scaler.transform(X_test)
 X_test_processed = X_test_scaled.reshape((28000, 28, 28))
 
-# Train Model A - 200 Nodes per Layer, 2 Hidden Layers
-model_a = keras.models.Sequential()
-model_a.add(keras.layers.Flatten(input_shape=[28, 28]))
-model_a.add(keras.layers.Dense(200, activation="relu"))
-model_a.add(keras.layers.Dense(200, activation="relu"))
-model_a.add(keras.layers.Dense(10, activation="softmax"))
 
-model_a.compile(loss="sparse_categorical_crossentropy",
-                optimizer="sgd",
-                metrics=["accuracy"])
+def _log(message):
+    print('[SimpleTimeTracker] {function_name} {total_time:.3f}'.format(**message))
 
-history = model_a.fit(X_train_processed, y_train, epochs=2, validation_split=0.1)
 
-pd.DataFrame(history.history).plot(figsize=(8, 5))
-plt.grid(True)
-plt.gca().set_ylim(0, 1)
-plt.title("200 Nodes per Layer, 2 Hidden Layers")
-plt.savefig("model_a")
+@simple_time_tracker(_log)
+def train_model(hidden_layers, nodes_per_layer, model_name):
+    nn_clf = keras.models.Sequential()
+    nn_clf.add(keras.layers.Flatten(input_shape=[28, 28]))
 
-# Evaluate Model A on the test set
-# Make final predictions
-model_a_predictions = model_a.predict_classes(X_test_processed)
-model_a_predictions_series = pd.Series(model_a_predictions, name="Label")
+    for i in range(hidden_layers):
+        nn_clf.add(keras.layers.Dense(nodes_per_layer, activation="relu"))
 
-# Output predictions
-image_ids = pd.Series(data=range(1, 28001), name="ImageId")
-output = pd.concat([image_ids, model_a_predictions_series], axis=1)
-output.to_csv("model_a_predictions.csv", index=False)
+    nn_clf.add(keras.layers.Dense(10, activation="softmax"))
+    nn_clf.compile(loss="sparse_categorical_crossentropy",
+                   optimizer="sgd",
+                   metrics=["accuracy"])
 
-# Train Model B - 400 Nodes per Layer, 2 Hidden Layers
-model_b = keras.models.Sequential()
-model_b.add(keras.layers.Flatten(input_shape=[28, 28]))
-model_b.add(keras.layers.Dense(400, activation="relu"))
-model_b.add(keras.layers.Dense(400, activation="relu"))
-model_b.add(keras.layers.Dense(10, activation="softmax"))
+    history = nn_clf.fit(X_train_processed, y_train, epochs=30, validation_split=0.1)
 
-model_b.compile(loss="sparse_categorical_crossentropy",
-                optimizer="sgd",
-                metrics=["accuracy"])
+    # Plot learning curves
+    pd.DataFrame(history.history).plot(figsize=(8, 5))
+    plt.grid(True)
+    plt.gca().set_ylim(0, 1)
+    plt.title(str(nodes_per_layer) + " Nodes per Layer, " + str(hidden_layers) + " Hidden Layers")
+    plt.savefig(model_name)
 
-history = model_a.fit(X_train_processed, y_train, epochs=2, validation_split=0.1)
+    # Make final predictions on test set
+    model_predictions = nn_clf.predict_classes(X_test_processed)
+    model_predictions_series = pd.Series(model_predictions, name="Label")
 
-pd.DataFrame(history.history).plot(figsize=(8, 5))
-plt.grid(True)
-plt.gca().set_ylim(0, 1)
-plt.title("400 Nodes per Layer, 2 Hidden Layers")
-plt.savefig("model_b")
+    # Output predictions
+    image_ids = pd.Series(data=range(1, 28001), name="ImageId")
+    output = pd.concat([image_ids, model_predictions_series], axis=1)
+    output.to_csv(model_name + "_predictions.csv", index=False)
 
-# Train Model C - 400 Nodes per Layer, 1 Hidden Layers
-model_c = keras.models.Sequential()
-model_c.add(keras.layers.Flatten(input_shape=[28, 28]))
-model_c.add(keras.layers.Dense(400, activation="relu"))
-model_c.add(keras.layers.Dense(10, activation="softmax"))
 
-model_c.compile(loss="sparse_categorical_crossentropy",
-                optimizer="sgd",
-                metrics=["accuracy"])
-
-history = model_a.fit(X_train_processed, y_train, epochs=2, validation_split=0.1)
-
-pd.DataFrame(history.history).plot(figsize=(8, 5))
-plt.grid(True)
-plt.gca().set_ylim(0, 1)
-plt.title("400 Nodes per Layer, 1 Hidden Layer")
-plt.savefig("model_c")
-
-# Train Model D - 200 Nodes per Layer, 1 Hidden Layers
-model_d = keras.models.Sequential()
-model_d.add(keras.layers.Flatten(input_shape=[28, 28]))
-model_d.add(keras.layers.Dense(200, activation="relu"))
-model_d.add(keras.layers.Dense(10, activation="softmax"))
-
-model_d.compile(loss="sparse_categorical_crossentropy",
-                optimizer="sgd",
-                metrics=["accuracy"])
-
-history = model_a.fit(X_train_processed, y_train, epochs=2, validation_split=0.1)
-
-pd.DataFrame(history.history).plot(figsize=(8, 5))
-plt.grid(True)
-plt.gca().set_ylim(0, 1)
-plt.title("200 Nodes per Layer, 1 Hidden Layer")
-plt.savefig("model_d")
+train_model(2, 200, "model_a")
+train_model(2, 400, "model_b")
+train_model(1, 400, "model_c")
+train_model(1, 200, "model_d")

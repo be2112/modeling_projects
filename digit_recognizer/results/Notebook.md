@@ -120,10 +120,39 @@ RandomForestClassifier parameters:
 
 This experiment, I will fit the MNIST dataset with a neural network model.  I plan on conducting a 2x2 factorial design, comparing 1 vs 2 hidden layers and 200 vs 400 neurons per layer.  I won't do any hyperparameter tuning.  I plan on submitting all 4 models to Kaggle.
 
-### Pre-Processing Decisions
+### Pre-Processing and Model Decisions
 
 * I used a MinMaxScaler to scale the features to the [0,1] range.  This is necessary because I am training the neural network using Gradient Descent.
 * I reshaped the array from (42000, 784) to (42000, 28, 28).
 * Each of the four models are Keras sequential models.  This is a fairly simple model.  Each layer has one input tensor and one output tensor.
 * The first layer is a Flatten layer.  The second and third layers are Dense layers with relu activation.  The final layer is a Dense layer with only 10 nodes, and softmax activation.  Softmax activation is necessary because the outputs should sum to 1 for a given training instance.
 * I used a Sparse Categorical Cross-Entropy loss function because this is a classification problem and the dataset is sparse.
+* In order to validate each model, I'm using a 10% validation split.
+* I chose to train each model over 30 epochs.
+
+
+
+### Results and Interpretation
+
+| Number of Layers | Nodes per Layer | Processing Time | Training Set Accuracy | Validation Accuracy | Kaggle Score |
+| ---------------- | --------------- | --------------- | --------------------- | ------------------- | ------------ |
+| 2                | 200             | 121.953         | 0.9889                | 0.971               | 0.96942      |
+| 2                | 400             | 138.201         | 0.9915                | 0.9695              | 0.97         |
+| 1                | 400             | 114.447         | 0.9778                | 0.966               | 0.96157      |
+| 1                | 200             | 104.636         | 0.9759                | 0.9629              | 0.96228      |
+
+![model_a](/Users/brianelinsky/Dropbox/ActiveProjects/modeling_projects/digit_recognizer/results/2020-05-11/model_a.png)
+
+![model_b](/Users/brianelinsky/Dropbox/ActiveProjects/modeling_projects/digit_recognizer/results/2020-05-11/model_b.png)
+
+![model_c](/Users/brianelinsky/Dropbox/ActiveProjects/modeling_projects/digit_recognizer/results/2020-05-11/model_c.png)
+
+![model_d](/Users/brianelinsky/Dropbox/ActiveProjects/modeling_projects/digit_recognizer/results/2020-05-11/model_d.png)
+
+* On all the models, the validation accuracy continues to increase, and the loss continues to decrease.  There may be more I can juice out of this model by increasing the number of epochs.
+* Both models with 2 layers performed better than the models with 1 layer.  For the models with 2 hidden layers, they seemed to perform equally well, regardless of the number of nodes in the layer.
+* My model likely isn't overfitting.  Either its fit well or there's some small amount of underfitting.
+
+### Next Steps
+
+* I could try training the model with more epochs.  I could also try adding more hidden layers.

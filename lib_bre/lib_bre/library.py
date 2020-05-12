@@ -4,6 +4,8 @@ import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
 from sklearn.model_selection import learning_curve
+from time import time
+from functools import wraps
 
 def get_dataset_file_path(date, filename):
     """Produces a filepath for the dataset.
@@ -219,3 +221,26 @@ def plot_learning_curve(estimator, title, X, y, axes=None, ylim=None, cv=None,
 
     return plt
 
+
+def simple_time_tracker(log_fun):
+    def _simple_time_tracker(fn):
+        @wraps(fn)
+        def wrapped_fn(*args, **kwargs):
+            start_time = time()
+
+            try:
+                result = fn(*args, **kwargs)
+            finally:
+                elapsed_time = time() - start_time
+
+                # log the result
+                log_fun({
+                    'function_name': fn.__name__,
+                    'total_time': elapsed_time,
+                })
+
+            return result
+
+        return wrapped_fn
+
+    return _simple_time_tracker
