@@ -111,3 +111,19 @@ RandomForestClassifier parameters:
 
 * 8.834 seconds to train the PCA
 * 66.2 seconds (without parallelization) to train the Random Forest Classifier
+
+
+
+## 2020-05-11
+
+### Experiment Plan
+
+This experiment, I will fit the MNIST dataset with a neural network model.  I plan on conducting a 2x2 factorial design, comparing 1 vs 2 hidden layers and 200 vs 400 neurons per layer.  I won't do any hyperparameter tuning.  I plan on submitting all 4 models to Kaggle.
+
+### Pre-Processing Decisions
+
+* I used a MinMaxScaler to scale the features to the [0,1] range.  This is necessary because I am training the neural network using Gradient Descent.
+* I reshaped the array from (42000, 784) to (42000, 28, 28).
+* Each of the four models are Keras sequential models.  This is a fairly simple model.  Each layer has one input tensor and one output tensor.
+* The first layer is a Flatten layer.  The second and third layers are Dense layers with relu activation.  The final layer is a Dense layer with only 10 nodes, and softmax activation.  Softmax activation is necessary because the outputs should sum to 1 for a given training instance.
+* I used a Sparse Categorical Cross-Entropy loss function because this is a classification problem and the dataset is sparse.
