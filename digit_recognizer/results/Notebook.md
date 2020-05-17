@@ -118,7 +118,7 @@ RandomForestClassifier parameters:
 
 ### Experiment Plan
 
-This experiment, I will fit the MNIST dataset with a neural network model.  I plan on conducting a 2x2 factorial design, comparing 1 vs 2 hidden layers and 200 vs 400 neurons per layer.  I won't do any hyperparameter tuning.  I plan on submitting all 4 models to Kaggle.
+For this experiment, I will fit the MNIST dataset with a neural network model.  I plan on conducting a 2x2 factorial design, comparing 1 vs 2 hidden layers and 200 vs 400 neurons per layer.  I won't do any automated hyperparameter tuning via a grid search.  I plan on submitting all 4 models to Kaggle.
 
 ### Pre-Processing and Model Decisions
 
